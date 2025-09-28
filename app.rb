@@ -41,23 +41,17 @@ class WordGuesserApp < Sinatra::Base
   end
 
   post '/guess' do
-    letter = params[:guess].to_s[0]
-
-    if letter.nil?
+    letter = params[:guess].to_s.slice(0,1)
+    begin
+      already = @game.guesses.include?(letter.downcase) || @game.wrong_guesses.include?(letter.downcase)
+      ok = @game.guess(letter)
+      flash[:message] = "You have already used that letter." if !ok || already
+    rescue ArgumentError
       flash[:message] = "Invalid guess."
-    else
-      begin
-        already_used = @game.guesses.include?(letter.downcase) ||
-                       @game.wrong_guesses.include?(letter.downcase)
-        ok = @game.guess(letter)
-        flash[:message] = "You have already used that letter." if !ok || already_used
-      rescue ArgumentError
-        flash[:message] = "Invalid guess."
-      end
     end
-
     redirect '/show'
   end
+  
 
   get '/show' do
     case @game.check_win_or_lose

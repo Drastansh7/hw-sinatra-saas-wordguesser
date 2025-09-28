@@ -1,28 +1,18 @@
+<!-- views/show.erb -->
+<h1>Guess a letter</h1>
+
+<p><strong>Word:</strong> <span class="word"><%= @word_with_guesses %></span></p>
+<p><strong>Wrong guesses:</strong> <span class="guesses"><%= @wrong_guesses %></span></p>
+
 <% if flash[:message] %>
-   <div class="alert alert-danger">
-     <span class="error"><%= flash[:message] %></span>
-   </div>
+  <p class="flash"><%= flash[:message] %></p>
 <% end %>
 
-<div class="alert alert-warning">
-  <p class="lead">
-    Wrong Guesses:
-    <span class="guesses"><%= @game.wrong_guesses %></span>
-  </p>
-</div>
-
-<p class="alert alert-success">
-  Word so far:
-  <span class="word"><%= @game.word_with_guesses %></span>
-</p>
-
 <form action="/guess" method="post">
-  <div class="form-group row">
-    <label for="guess" class="col-md-2 col-form-label">Guess a letter:</label>
-    <input type="text" name="guess" autocomplete="off"
-           class="form-control col-md-1"/>
-    <input type="submit" value="Guess!" class="col-md-2 btn btn-success"/>
-  </div>
+  <input type="text" name="guess" maxlength="1" autocomplete="off">
+  <button type="submit">Guess!</button>
 </form>
 
-<%= erb :new %>
+<form action="/create" method="post" style="margin-top:1rem">
+  <input type="submit" value="New Game">
+</form>
