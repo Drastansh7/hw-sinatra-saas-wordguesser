@@ -8,9 +8,8 @@ class WordGuesserGame
   end
 
   def guess(letter)
-    raise ArgumentError if letter.nil? || letter.empty? || letter !~ /[A-Za-z]/
+    raise ArgumentError if letter.nil? || letter.empty? || letter !~ /\A[a-zA-Z]\z/
     letter = letter.downcase
-
     return false if @guesses.include?(letter) || @wrong_guesses.include?(letter)
 
     if @word.downcase.include?(letter)
@@ -22,14 +21,12 @@ class WordGuesserGame
   end
 
   def word_with_guesses
-    @word.chars.map { |ch|
-      @guesses.include?(ch.downcase) ? ch : '-'
-    }.join
+    @word.chars.map { |ch| @guesses.include?(ch.downcase) ? ch : '-' }.join
   end
 
   def check_win_or_lose
-    return :win  if word_with_guesses == @word
     return :lose if @wrong_guesses.length >= 7
+    return :win  if word_with_guesses.downcase == @word.downcase
     :play
   end
 
