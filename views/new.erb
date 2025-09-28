@@ -1,6 +1,4 @@
-<!-- This form is incomplete--it needs a destination URL as well as a method: -->
-<form method="post">
-  <div class="form-row py-3 border-top">
-    <input type="submit" value="New Game" class="col-md-2 offset-md-5 btn btn-primary form-control"/>
-  </div>
+<form action="/create" method="post">
+  <input type="text" name="word" placeholder="(leave blank for random)">
+  <button type="submit">Start</button>
 </form>
